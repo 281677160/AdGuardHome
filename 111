@@ -3,31 +3,33 @@ http:
     port: 6060
     enabled: false
   address: 0.0.0.0:3000
-  session_ttl: 0s
+  session_ttl: 720h
 users:
   - name: admin
-    password: $2y$10$FfeQavihMUiXCuJhHuQwy.6EOXDvkXb/S50qI5fXizqarNT/ShhQm
+    password: $2a$10$hxbQQYUwPZ.O/.PaqNee8OsrabRXe1A/han0gXCp6CGdOtMy9ANs2
 auth_attempts: 5
 block_auth_min: 15
 http_proxy: ""
-language: zh-cn
+language: ""
 theme: auto
 dns:
   bind_hosts:
     - 0.0.0.0
   port: 1745
   anonymize_client_ip: false
-  ratelimit: 0
+  ratelimit: 20
   ratelimit_subnet_len_ipv4: 24
   ratelimit_subnet_len_ipv6: 56
   ratelimit_whitelist: []
-  refuse_any: false
+  refuse_any: true
   upstream_dns:
-    - 223.5.5.5
+    - https://dns10.quad9.net/dns-query
   upstream_dns_file: ""
   bootstrap_dns:
-    - 119.29.29.29
-    - 223.5.5.5
+    - 9.9.9.10
+    - 149.112.112.10
+    - 2620:fe::10
+    - 2620:fe::fe:10
   fallback_dns: []
   upstream_mode: load_balance
   fastest_timeout: 1s
@@ -43,7 +45,7 @@ dns:
   cache_size: 4194304
   cache_ttl_min: 0
   cache_ttl_max: 0
-  cache_optimistic: true
+  cache_optimistic: false
   bogus_nxdomain: []
   aaaa_disabled: false
   enable_dnssec: false
@@ -71,7 +73,7 @@ tls:
   force_https: false
   port_https: 443
   port_dns_over_tls: 853
-  port_dns_over_quic: 784
+  port_dns_over_quic: 853
   port_dnscrypt: 0
   dnscrypt_config_file: ""
   allow_unencrypted_doh: false
@@ -92,22 +94,15 @@ statistics:
   enabled: true
 filters:
   - enabled: true
-    url: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_1.txt
     name: AdGuard DNS filter
-    id: 1628750870
-  - enabled: true
-    url: https://anti-ad.net/easylist.txt
-    name: 'CHN: anti-AD'
-    id: 1628750871
+    id: 1
+  - enabled: false
+    url: https://adguardteam.github.io/HostlistsRegistry/assets/filter_2.txt
+    name: AdAway Default Blocklist
+    id: 2
 whitelist_filters: []
-user_rules:
-  - '@@||taobao.com^$important'
-  - '@@||jd.com^important'
-  - '@@||flyme.cn^$important'
-  - '@@||meizu.com^$important'
-  - '@@||wl.jd.com^$important'
-  - '@@||flydigi.com^'
-  - '@@||pv.sohu.com^$important'
+user_rules: []
 dhcp:
   enabled: false
   interface_name: ""
@@ -159,7 +154,7 @@ clients:
   runtime_sources:
     whois: true
     arp: true
-    rdns: false
+    rdns: true
     dhcp: true
     hosts: true
   persistent: []
